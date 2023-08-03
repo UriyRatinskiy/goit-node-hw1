@@ -4,46 +4,60 @@ const crypto = require("node:crypto");
 
 const contactsPath = path.join(__dirname, "contacts.json");
 
-async function readFile() {
-  const data = await readFile(contactsPath, "utf8");
-  return JSON.parse(data);
-}
+// async function readFile() {
+//   const data = await readFile(contactsPath, "utf8");
+//   return JSON.parse(data);
+// }
 
-function writeFile(data) {
-  return fs.writeFile(contactsPath, JSON.stringify(data));
-}
+// function writeFile(data) {
+//   return fs.writeFile(contactsPath, JSON.stringify(data));
+// }
 
 // TODO: задокументувати кожну функцію
 async function listContacts() {
   //Повертає масив контактів.
-  const data = await readFile(contactsPath, "utf8");
-  return data;
+  const data = await fs.readFile(contactsPath, "utf8");
+  const contacts = JSON.parse(data);
+  return contacts;
 }
 
 async function getContactById(contactId) {
   //Повертає об'єкт контакту з таким id. Повертає null, якщо контакт з таким id не знайдений.
-  const data = await readFile(contactId, "utf8");
-  return data.find((contact) => contact.id === id);
+  const contacts = await listContacts();
+  const result = contacts.find((contact) => contact.id === contactId);
+  return !result ? null : result.contacts;
 }
 
 async function removeContact(contactId) {
   //Повертає об'єкт видаленого контакту. Повертає null, якщо контакт з таким id не знайдений.
 
-  const data = await readFile();
+  const contacts = await listContacts();
 
-  const index = data.findIndex((contact) => contact.id === contactId);
+  const index = contacts.findIndex((contact) => contact.id === contactId);
 
   if (index === -1) {
-    return undefined;
+    return null;
   }
 
-  const newContacts = [...data.slice(0, index), ...data.sliae(index + 1)];
+  const [removedContact] = contacts.splice(index, 1);
 
-  await writeFile(newContacts);
+  await writeFile(contactsPath, JSON.stringify(contacts, null, 2));
 
-  return "Success";
+  return removedContact;
 }
 
-function addContact(name, email, phone) {
+async function addContact(name, email, phone) {
   //Повертає об'єкт доданого контакту.
+  const contacts = await listContacts();
+  const newContact = { id: crypto(name, email, phone) };
+  contacts.push(newContact);
+  await writeFile(contactsPath, JSON.stringify(contacts));
+  return newContact;
 }
+
+module.exports = {
+  listContacts,
+  getContactById,
+  removeContact,
+  addContact,
+};

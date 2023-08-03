@@ -1,17 +1,20 @@
 {
-  "name": "hv-01",
+  "name": "hw-node-01",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js",
-    "start:dev": "nodemon app.js"
+    "start": "node index",
+    "start:dev": "nodemon index"
   },
   "keywords": [],
   "author": "UriyRatinskiy <YOUR_EMAIL>",
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^3.0.1"
+  },
+  "dependencies": {
+    "yargs": "^17.7.2"
   }
 }

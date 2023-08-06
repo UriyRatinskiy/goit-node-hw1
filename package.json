@@ -5,16 +5,19 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index",
-    "start:dev": "nodemon index"
+    "start": "cross-env node index",
+    "start:dev": "cross-env nodemon index"
   },
   "keywords": [],
   "author": "UriyRatinskiy <YOUR_EMAIL>",
   "license": "ISC",
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "nodemon": "^3.0.1"
   },
   "dependencies": {
+    "uuid": "^9.0.0",
+    "uuidv4": "^6.2.13",
     "yargs": "^17.7.2"
   }
 }
